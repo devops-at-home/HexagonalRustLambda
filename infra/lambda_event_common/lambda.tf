@@ -1,17 +1,17 @@
 resource "aws_iam_role" "lambda_role" {
-    name               = "${var.app_name}-${var.lambda_name}"
-    assume_role_policy = data.aws_iam_policy_document.lambda_assume_role.json
+  name               = "${var.app_name}-${var.lambda_name}"
+  assume_role_policy = data.aws_iam_policy_document.lambda_assume_role.json
 }
 
 resource "aws_iam_role_policy_attachment" "lambda_role_policy_attachment" {
-    count       = length(var.additional_policy_arns)
-    role        = aws_iam_role.lambda_role.name
-    policy_arn  = var.additional_policy_arns[count.index]
+  count      = length(var.additional_policy_arns)
+  role       = aws_iam_role.lambda_role.name
+  policy_arn = var.additional_policy_arns[count.index]
 }
 
 resource "aws_iam_role_policy_attachment" "basic_execution_role_policy_attachment" {
-    role        = aws_iam_role.lambda_role.name
-    policy_arn  = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+  role       = aws_iam_role.lambda_role.name
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
 }
 
 data "archive_file" "lambda_archive" {
@@ -29,7 +29,7 @@ resource "aws_lambda_function" "lambda" {
 
   source_code_hash = data.archive_file.lambda_archive.output_base64sha256
 
-  runtime = "provided.al2"
+  runtime = "provided.al2023"
 
   architectures = var.architectures
 
