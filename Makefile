@@ -17,7 +17,7 @@ test-rust:
 	cargo test
 
 test-int:
-	cd test-integration && npm test
+	cd test-integration && npm install && npm test
 
 init:
 	terraform -chdir=infra init
@@ -46,4 +46,4 @@ build-deploy-test-destroy: build-deploy-test destroy
 build-deploy-test-destroy-x86: build-deploy-test-x86 destroy
 
 load-test:
-	cd test && npm run load-test
+	cd test-artillery && npm install && npm run load-test
